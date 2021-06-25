@@ -9,7 +9,7 @@ import Left_Button from './left_button.png'
 import Character_01 from './Character_01.png'
 
 export default function load(){
-  loadSprit('carved', Carved_01)
+  loadSprite('carved', Carved_01)
   loadSprite('uncarved', Uncarved_01)
   loadSprite('up_btn', Up_Button)
   loadSprite('right_btn', Right_Button)

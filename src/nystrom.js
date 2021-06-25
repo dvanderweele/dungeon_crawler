@@ -10,10 +10,11 @@ export default class Miner {
     this.numVertices = this.vertsPerRow * this.vertsPerCol
     this.crawlStack = [this.g.getIdx(...this.randStartingVert())]
     this.roomsLinked = 0
-    this.trimmed = false
     this.next = []
     this.roomTries = roomTries
     this.tries = 0
+    this.done = false
+    this.state = 'built grid'
   }
 
   validRoomBorders(x, y, w, h){
@@ -312,55 +313,66 @@ export default class Miner {
     return uncarved_sides.length < 3 ? false : carved_sides[0]
   }
 
+  doneTrimming(){
+    for(var i = 0; i < this.g.arr.length; i++) {
+      const x = this.g.colOf(i)
+      const y = this.g.rowOf(i)
+      if(!this.g.isBorder(x, y) && this.g.isVertex(x, y) && this.isDeadend(i)){
+        return false
+      }
+    }
+    this.done = true
+    return true
+  }
+
   tryTrimming(){
-    if(!this.trimmed){ 
-      let oneTrimmed = false
-      if(this.next.length < 1){
-        // linear search for deadend
-        this.g.arr.forEach((v, i) => {
-          const res = !this.g.isBorder(i) ? this.isDeadend(i) : null
-          if(res){
-            const x = this.g.colOf(i)
-            const y = this.g.rowOf(i)
-            this.g.setCell(x, y, this.g.FILLED)
-            this.g.dirty(x, y)
-            this.next.push(res)
-            oneTrimmed = true 
-          } 
-        })
-      } else {
-        // process nexts
-        // first validate them
-        const tmp = []
-        this.next.forEach(v => {
-          const res = this.isDeadend(v)
-          if(res){
-            const x = this.g.colOf(v)
-            const y = this.g.rowOf(v)
-            this.g.setCell(x, y, this.g.FILLED)
-            this.g.dirty(x, y)
-            tmp.push(res)
-          }
-        })
-        oneTrimmed = true
-        this.next = tmp
-      }
-      if(!oneTrimmed){
-        this.trimmed = true 
-      }
+    if(this.next.length < 1){
+      // linear search for deadend
+      this.g.arr.forEach((v, i) => {
+        const res = !this.g.isBorder(i) ? this.isDeadend(i) : null // if not border, check if deadend
+        if(res){ // is not border && is deadend 
+          const x = this.g.colOf(i)
+          const y = this.g.rowOf(i)
+          this.g.setCell(x, y, this.g.FILLED)
+          this.g.dirty(x, y)
+          this.next.push(res)
+        } 
+      })
+    } else {
+      // process nexts
+      // first validate them
+      const tmp = []
+      this.next.forEach(v => {
+        const res = this.isDeadend(v)
+        if(res){
+          const x = this.g.colOf(v)
+          const y = this.g.rowOf(v)
+          this.g.setCell(x, y, this.g.FILLED)
+          this.g.dirty(x, y)
+          tmp.push(res)
+        }
+      })
+      this.next = tmp
     }
   }
 
   step(){
     if(this.tries < this.roomTries){
+      this.state = this.state != 'carving rooms' ? 'placing rooms' : this.state
       this.tryPlaceRoom()
       this.tries++
     } else if(this.crawlStack.length > 0){
+      this.state = this.state != 'carving corridors' ? 'carving corridors' : this.state
       this.crawl()
     } else if(this.roomsLinked < this.roomRegistry.length){
+      this.state = this.state != 'carving doorways' ? 'carving doorways' : this.state
       this.linkRoom()
-    } else if(!this.trimmed){
+    } else if(!this.doneTrimming()){
+      this.state = this.state != 'trimming the corridors' ? 'trimming the corridors' : this.state
       this.tryTrimming()
+    } else {
+      this.state = this.state != 'done' ? 'done' : this.state
+      this.done = true
     }
   }
 }

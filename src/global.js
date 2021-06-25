@@ -1,4 +1,5 @@
 import kaboom from "kaboom"
+import define from './scenes'
 import load from "./assets"
 
 let w, h, sc, or
@@ -13,13 +14,13 @@ function calc_dims(){
   or = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
   const canvas_root_dim = 128
   if(or === 'landscape'){
+    h = canvas_root_dim
+    sc = window.innerheight / h
+    w = (window.innerWidth / window.innerHeight) * h
+  } else {
     w = canvas_root_dim
     sc = window.innerWidth / w
-    h = (window.innerWidth / window.innerHeight) * w
-  } else {
-    h = canvas_root_dim
-    sc = window.innerHeight / h
-    w = (window.innerHeight / window.innerWidth) * h
+    h = (window.innerHeight / window.innerWidth) * w
   }
 }
 
@@ -36,5 +37,6 @@ const k = kaboom({
 })
 
 load()
+define()
 
 export default k
