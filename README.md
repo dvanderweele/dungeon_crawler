@@ -15,7 +15,7 @@ I probably implemented the algorithm a bit differently than him, but the high-le
 
 ## Project Architecture
 
-Primary tools: 
+⚒️ **Primary Tools**
 
 * Pixel Studio on Android
 * Firefox (or sometimes Chrome) on Android
@@ -24,6 +24,16 @@ Primary tools:
     * Node.js v14.15.4
         * Kaboom.js ^0.5.1
         * Webpack
+
+📱 **Why... Android?**
+
+Termux is actually pretty charming. That being said it's mostly just because it's most convenient for me to work on side projects on mobile at the moment rather than desktop/laptop.
+
+🗂️**Diectory Structure**
+
+Pretty standard webpack project layout with `dist`, `src`, and `node_modules` in project root. *The magic happens inside `src`.*
+
+I have much of the contents of `src` divvied up into subdirectories in order to separate entities (what kaboom calls objects), components, assets, and scenes.
 
 ## Why Webpack?
 
