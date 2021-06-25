@@ -33,4 +33,4 @@ It's the **Kleenex®** brand of JavaScript bundlers.
 
 There are plenty of other bundlers out there touting "less config" than webpack, but as it turns out **none of them** *(at the time of this writing)* **work well or at all in Termux**. Actually, I borked my Termux install trying to get them to work 😤. 
 
-In the end, I realized that it wad an enormous effort to go through to avoid learning how to do a basic webpack config. So I read through the docs — which are actually **amazing** — and it left me wondering why anyone ever complains about it. 
+In the end, I realized that it was an enormous effort to go through to avoid learning how to do a basic webpack config. So I read through the docs — which are actually **amazing** — and it left me wondering why anyone ever complains about it. 
