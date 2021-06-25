@@ -29,7 +29,7 @@ I probably implemented the algorithm a bit differently than him, but the high-le
 
 Termux is actually pretty charming. That being said it's mostly just because it's most convenient for me to work on side projects on mobile at the moment rather than desktop/laptop.
 
-🗂️**Diectory Structure**
+🗂️ **Directory Structure**
 
 Pretty standard webpack project layout with `dist`, `src`, and `node_modules` in project root. *The magic happens inside `src`.*
 
