@@ -17,6 +17,7 @@ I probably implemented the algorithm a bit differently than him, but the high-le
 
 Primary tools: 
 
+* Pixel Studio on Android
 * Firefox (or sometimes Chrome) on Android
 * Termux on Android (F-Droid Version)
     * Neovim w/ coc-eslint (because devtools aren't on mobile...😭)
